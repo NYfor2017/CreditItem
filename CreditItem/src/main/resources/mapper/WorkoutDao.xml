@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.WorkoutDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="Workout" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="workout_id" property="workout_id"/>
+        <result column="workout_signin" property="workout_signin"/>
+        <result column="workout_type" property="workout_type"/>
+        <result column="workout_capital" property="workout_capital"/>
+        <result column="workout_job" property="workout_job"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnWorkout" parameterType="int" resultMap="BaseResultMap">
+    	select *  from workout_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteWorkout" parameterType="int">
+    	delete from workout_info where workout_id=#{workout_id}
+    </delete>
+    
+	<insert id="addWorkout">
+		insert into workout_info(workout_signin,workout_type,workout_capital,workout_job,user_id) values(#{workout_signin},#{workout_type},#{workout_capital},#{workout_job},#{user_id})
+	</insert>
+	
+	<update id="updateWorkout">
+		update workout_info set workout_signin=#{workout_signin},workout_type=#{workout_type},workout_capital=#{workout_capital}, workout_job=#{workout_job}  where workout_id=#{workout_id}
+	</update>
+</mapper>

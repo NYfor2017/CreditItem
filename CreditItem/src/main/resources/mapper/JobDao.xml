@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.JobDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="Job" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="job_id" property="job_id"/>
+        <result column="job_title" property="job_title"/>
+        <result column="job_begin" property="job_begin"/>
+        <result column="job_end" property="job_end"/>
+        <result column="job_workunit" property="job_workunit"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnJob" parameterType="int" resultMap="BaseResultMap">
+    	select *  from job_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteJob" parameterType="int">
+    	delete from job_info where job_id=#{out_6m_id}
+    </delete>
+    
+	<insert id="addJob">
+		insert into job_info(job_title,job_begin,job_end,job_workunit,user_id) values(#{job_title},#{job_begin},#{job_end},#{job_workunit},#{user_id})
+	</insert>
+	
+	<update id="updateJob">
+		update job_info set job_title=#{job_title},job_begin=#{job_begin},job_end=#{job_end},job_workunit=#{job_workunit}  where job_id=#{job_id}
+	</update>
+</mapper>

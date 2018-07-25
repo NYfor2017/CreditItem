@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.CarDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<!-- 自定义结果Map -->
+	<resultMap type="Car" id="BaseResultMap">
+			<result property="car_id" column="car_id"/>
+			<result property="car_number" column="car_number"/>
+			<result property="car_brand" column="car_brand"/>
+			<result property="car_model" column="car_model"/>
+			<result property="car_buy_date" column="car_buy_date"/>
+			<result property="car_type_year" column="car_type_year"/>
+			<result property="car_hit_market" column="car_hit_market"/>
+			<result property="car_type" column="car_type"/>
+			<result property="car_size" column="car_size"/>
+			<result property="car_pro_country" column="car_pro_country"/>
+			<result property="car_pro_type" column="car_pro_type"/>
+	</resultMap>
+	
+	<select id="queryAllCar" resultMap="BaseResultMap">
+		select * from car_info
+	</select>
+	
+	<select id="queryOwnCar" parameterType="int" resultMap="BaseResultMap">
+		select * from car_info where user_id=#{user_id}
+	</select>
+	
+	<delete id="deleteCar" parameterType="int">
+		delete from car_info where car_id=#{car_id}
+	</delete>
+	
+	<insert id="addCar">
+		insert into car_info(car_number,car_brand, car_model, 
+			car_buy_date, car_type_year, car_hit_market, car_type, 
+			car_size, car_pro_country,car_pro_type,user_id) values
+			(#{car_number},#{car_brand}, #{car_model}, 
+			#{car_buy_date}, #{car_type_year}, #{car_hit_market}, #{car_type}, 
+			#{car_size}, #{car_pro_country},#{car_pro_type},#{user_id})		
+	</insert>
+	<update id="updateCar">
+		update car_info set car_number=#{car_number},car_brand=#{car_brand}, car_model=#{car_model}, 
+			car_buy_date=#{car_buy_date}, car_type_year=#{car_type_year}, car_hit_market=#{car_hit_market}, car_type=#{car_type}, 
+			car_size=#{car_size}, car_pro_country=#{car_pro_country},car_pro_type=#{car_pro_type}) where car_id=#{car_id}	
+	</update>
+</mapper>

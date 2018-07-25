@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.QualiDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="Quali" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="quali_id" property="quali_id"/>
+        <result column="quali_num" property="quali_num"/>
+        <result column="quali_name" property="quali_name"/>
+        <result column="quali_date" property="quali_date"/>
+        <result column="quali_insti" property="quali_insti"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnQuali" parameterType="int" resultMap="BaseResultMap">
+    	select *  from quali_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteQuali" parameterType="int">
+    	delete from quali_info where quali_id=#{quali_id}
+    </delete>
+    
+	<insert id="addQuali">
+		insert into quali_info(quali_num,quali_name,quali_date,quali_insti,user_id) values(#{quali_num},#{quali_name},#{quali_date},#{quali_insti},#{user_id})
+	</insert>
+	
+	<update id="updateQuali">
+		update quali_info set quali_num=#{quali_num},quali_name=#{quali_name},quali_date=#{quali_date},quali_insti=#{quali_insti} where quali_id=#{quali_id}
+	</update>
+</mapper>

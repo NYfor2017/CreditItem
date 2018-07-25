@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.DriveDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="Drive" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="drive_id" property="drive_id"/>
+        <result column="drive_card" property="drive_card"/>
+        <result column="drive_status" property="drive_status"/>
+        <result column="drive_quasi_type" property="drive_quasi_type"/>
+        <result column="drive_year" property="drive_year"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+
+    <select id="getOwnDrive" parameterType="int" resultMap="BaseResultMap">
+    	select *  from drive_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteDrive" parameterType="int">
+    	delete from drive_info where drive_id=#{drive_id}
+    </delete>
+    
+	<insert id="addDrive">
+		insert into drive_info(drive_card,drive_status,drive_quasi_type,drive_year,user_id) values(#{drive_card},#{drive_status},#{drive_quasi_type},#{drive_year},#{user_id})
+	</insert>
+	
+	<update id="updateDrive">
+		update drive_info set drive_card=#{drive_card}, drive_status=#{drive_status}, drive_quasi_type=#{drive_quasi_type}, drive_year=#{drive_year} where drive_id=#{drive_id}
+	</update>
+</mapper>

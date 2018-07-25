@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.SecurityDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="Security" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result property="secu_id" column="secu_id"/>
+			<result property="secu_if" column="secu_if"/>
+			<result property="secu_name" column="secu_name"/>
+			<result property="secu_pay_base" column="secu_pay_base"/>
+			<result property="secu_pay_unit" column="secu_pay_unit"/>
+			<result property="secu_parti_status" column="secu_parti_status"/>
+			<result property="secu_city" column="secu_city"/>
+			<result property="secu_paid_cons_month" column="secu_paid_cons_month"/>
+			<result property="secu_idcard" column="secu_idcard"/>
+			<result property="secu_pay_recent" column="secu_pay_recent"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnSecurity" parameterType="int" resultMap="BaseResultMap">
+    	select *  from security_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteSecurity" parameterType="int">
+    	delete from security_info where secu_id=#{secu_id}
+    </delete>
+    
+	<insert id="addSecurity">
+		insert into security_info(secu_if,secu_name,secu_pay_base,secu_pay_unit,secu_parti_status,secu_city,secu_paid_cons_month,secu_idcard,secu_pay_recent,user_id)
+		 values(#{secu_if},#{secu_name},#{secu_pay_base},#{secu_pay_unit},#{secu_parti_status},#{secu_city},#{secu_paid_cons_month},#{secu_idcard},#{secu_pay_recent},#{user_id})
+	</insert>
+	
+	<update id="updateSecurity">
+		update secu_info set secu_if=#{secu_if},secu_name=#{secu_name},secu_pay_base=#{secu_pay_base},secu_pay_unit=#{secu_pay_unit},secu_parti_status=#{secu_parti_status},
+		secu_city=#{secu_city},secu_paid_cons_month=#{secu_paid_cons_month},secu_idcard=#{secu_idcard},secu_pay_recent=#{secu_pay_recent} where secu_id=#{secu_id}
+	</update>
+</mapper>

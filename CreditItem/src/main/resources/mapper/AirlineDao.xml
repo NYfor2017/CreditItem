@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.AirlineDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="Airline" id="BaseResultMap">
+        <result column="airline_id" property="airline_id"/>
+        <result column="airline_level" property="airline_level"/>
+        <result column="airline_date" property="airline_date"/>
+        <result column="airline_num" property="airline_num"/>
+		<result column="airline_fee" property="airline_fee"/>
+        <result column="user_id" property="user.user_id"/>
+        <collection property="us" ofType="User">
+        	<id property="user_id" column="user_id"/>
+        	<result property="username" column="username"/>
+        	<result property="password" column="password"/>
+        </collection>
+    </resultMap>
+	
+    
+    <delete id="deleteAirline" parameterType="int">
+    	delete from airline_info where airline_id=#{airline_id}
+    </delete>
+    
+	<insert id="addAirline">
+		insert into airline_info(airline_level,airline_date,airline_num,airline_fee) values(#{airline_level},#{airline_date},#{airline_num},#{airline_fee})
+	</insert>
+	
+	<update id="updateAirline">
+		update airline_info set airline_level=#{airline_level},airline_date=#{airline_date},airline_num=#{airline_num},airline_fee=#{airline_fee} where airline_id=#{airline_id}
+	</update>
+	
+	<!-- 保存用户和航班之间的关联关系信息 -->
+	<insert id="addUserAirline" parameterType="UserAirlineLink">
+		insert into user_airline(user_id,airline_id) values (#{user_id}, #{airline_id})
+	</insert>
+	
+</mapper>

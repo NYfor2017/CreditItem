@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.BlacklistLegalWorkunitDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="BlacklistLegalWorkunit" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="blacklist_legal_w_id" property="blacklist_legal_w_id"/>
+        <result column="blacklist_detail" property="blacklist_detail"/>
+        <result column="workunit_id" property="w.workunit_id"/>
+    </resultMap>
+
+    <select id="getOwnBlacklistLegalWorkunit" parameterType="int" resultMap="BaseResultMap">
+    	select *  from blacklist_legal_w_info where workunit_id=#{workunit_id}
+    </select>
+    
+    <delete id="deleteBlacklistLegalWorkunit" parameterType="int">
+    	delete from blacklist_legal_w_info where blacklist_legal_w_id=#{blacklist_legal_w_id}
+    </delete>
+    
+	<insert id="addBlacklistLegalWorkunit">
+		insert into blacklist_legal_w_info(workunit_id,blacklist_detail) values(#{workunit_id},#{blacklist_detail})
+	</insert>
+	
+	<update id="updateBlacklistLegalWorkunit">
+		update blacklist_legal_w_info set blacklist_detail=#{blacklist_detail} where blacklist_legal_w_id=#{blacklist_legal_w_id}
+	</update>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.BlacklistUserDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="BlacklistUser" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="blacklist_user_id" property="blacklist_user_id"/>
+        <result column="blacklist_detail" property="blacklist_detail"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnBlacklistUser" parameterType="int" resultMap="BaseResultMap">
+    	select *  from blacklist_credit_u_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteBlacklistUser" parameterType="int">
+    	delete from blacklist_credit_u_info where blacklist_user_id=#{blacklist_user_id}
+    </delete>
+    
+	<insert id="addBlacklistUser">
+		insert into blacklist_credit_u_info(blacklist_detail,user_id) values(#{blacklist_detail},#{user_id})
+	</insert>
+	
+	<update id="updateBlacklistUser">
+		update blacklist_credit_u_info set blacklist_detail=#{blacklist_detail} where blacklist_user_id=#{blacklist_user_id}
+	</update>
+</mapper>

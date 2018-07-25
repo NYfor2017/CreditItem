@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.HouseDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="House" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="house_id" property="house_id"/>
+        <result column="house_address" property="house_address"/>
+        <result column="house_value" property="house_value"/>
+        <result column="house_payall_if" property="house_payall_if"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <!-- 这里的id必须和UserMapper接口中的接口方法名相同,resultMap和上面定义的id名字相同 -->
+    <select id="queryAllHouse" resultMap="BaseResultMap">
+        select house_id,house_address,house_value,house_payall_if,user_id from house_info
+    </select>
+    
+    <select id="getOwnHouse" parameterType="int" resultMap="BaseResultMap">
+    	select house_id,house_address,house_value,house_payall_if,user_id from house_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteHouse" parameterType="int">
+    	delete from house_info where house_id=#{house_id}
+    </delete>
+    
+	<insert id="addHouse">
+		insert into house_info(house_address,house_value,house_payall_if,user_id) values(#{house_address},#{house_value},#{house_payall_if},#{user_id})
+	</insert>
+	
+	<update id="updateHouse">
+		update house_info set house_address=#{house_address}, house_value=#{house_value}, house_payall_if=#{house_payall_if} where house_id=#{house_id}
+	</update>
+</mapper>

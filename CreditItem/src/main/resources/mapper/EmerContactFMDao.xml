@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.EmerContactFMDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="EmerContactFM" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="emercontact_fm_id" property="emercontact_fm_id"/>
+        <result column="emercontact_fm_name" property="emercontact_fm_name"/>
+        <result column="emercontact_fm_number" property="emercontact_fm_number"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnEmerContactFM" parameterType="int" resultMap="BaseResultMap">
+    	select *  from emercontact_fm_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteEmerContactFM" parameterType="int">
+    	delete from emercontact_fm_info where emercontact_fm_id=#{emercontact_fm_id}
+    </delete>
+    
+	<insert id="addEmerContactFM">
+		insert into emercontact_fm_info(emercontact_fm_name,emercontact_fm_number,user_id) values(#{emercontact_fm_name},#{emercontact_fm_number},#{user_id})
+	</insert>
+	
+	<update id="updateEmerContactFM">
+		update emercontact_fm_info set emercontact_fm_name=#{emercontact_fm_name},emercontact_fm_number=#{emercontact_fm_number} where emercontact_fm_id=#{emercontact_fm_id}
+	</update>
+</mapper>
