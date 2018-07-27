@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.CardOut12MDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="CardOut12M" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="out_12m_id" property="out_12m_id"/>
+        <result column="out_12m_time" property="out_12m_time"/>
+        <result column="out_12m_amount" property="out_12m_amount"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnCardOut12M" parameterType="int" resultMap="BaseResultMap">
+    	select *  from card_out_12m_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteCardOut12M" parameterType="int">
+    	delete from card_out_12m_info where out_12m_id=#{out_12m_id}
+    </delete>
+    
+	<insert id="addCardOut12M">
+		insert into card_out_12m_info(out_12m_time,out_12m_amount,user_id) values(#{out_12m_time},#{out_12m_amount},#{user_id})
+	</insert>
+	
+	<update id="updateCardOut12M">
+		update card_out_12m_info set out_12m_time=#{out_12m_time},out_12m_amount=#{out_12m_amount} where out_12m_id=#{out_12m_id}
+	</update>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.WorkunitDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<insert id="addWorkunit">
+		<!-- 具体的sql -->
+		insert ignore into workunit_info(workunit_name,workunit_type,workunit_reg_number,workunit_reg_capital,workunit_phone_num1,workunit_phone_num2) values(#{workunit_name},#{workunit_type},#{workunit_reg_number},#{workunit_reg_capital},#{workunit_phone_num1},#{workunit_phone_num2})
+	</insert>
+	
+	<select id="getAllWorkunit" resultMap="getWorkunitMap">
+		select  *  from workunit_info 
+	</select>
+	
+	<update id="updateWorkunit">
+		update workunit_info set workunit_name=#{workunit_name},workunit_type=#{workunit_type},workunit_reg_number=#{workunit_reg_number},workunit_reg_capital=#{workunit_reg_capital},workunit_phone_num1=#{workunit_phone_num1},workunit_phone_num2=#{workunit_phone_num2} where workunit_id=#{workunit_id}
+	</update>
+	
+	<delete id="deleteWorkunit">
+		delete from workunit_info where workunit_id=#{workunit_id}
+	</delete>
+	
+	<!-- 保存用户和航班之间的关联关系信息 -->
+	<insert id="addUserWorkunit" parameterType="UserWorkunitLegal">
+		insert into user_workunit_legal(user_id,workunit_id) values (#{user_id}, #{workunit_id})
+	</insert>
+	
+	<resultMap type="Workunit" id="getWorkunitMap">
+		<id property="workunit_id" column="workunit_id"/>
+		<result property="workunit_name" column="workunit_name"/>
+		<result property="workunit_type" column="workunit_type"/>
+		<result property="workunit_reg_number" column="workunit_reg_number"/>
+		<result property="workunit_reg_capital" column="workunit_reg_capital"/>
+		<result property="workunit_phone_num1" column="workunit_phone_num1"/>
+		<result property="workunit_phone_num2" column="workunit_phone_num2"/>
+		<collection property="bcws" ofType="BlacklistCreditWorkunit">
+			<id property="blacklist_credit_w_id" column="black_credit_w_id"/>
+			<result property="blacklist_detail" column="blacklist_detail"/>
+		</collection>
+		<collection property="blws" ofType="BlacklistLegalWorkunit">
+			<id property="blacklist_legal_w_id" column="blacklist_legal_w_id"/>
+			<result property="blacklist_detail" column="blacklist_detail"/>
+		</collection>
+		<collection property="bws" ofType="BlacklistWorkunit">
+			<id property="blacklist_workunit_id" column="blacklist_workunit_id"/>
+			<result property="blacklist_detail" column="blacklist_detail"/>
+		</collection>
+	</resultMap> 
+</mapper>

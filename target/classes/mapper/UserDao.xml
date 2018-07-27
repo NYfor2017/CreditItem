@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.UserDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<insert id="insertUser">
+		<!-- 具体的sql -->
+		insert ignore into user_info(username,password) values(#{username},#{password})
+	</insert>
+	
+	<select id="queryUser" resultType="User">
+		select * from user_info where username=#{username} and password=#{password}
+	</select>
+	
+	<select id="queryAll" resultType="User">
+		select * from user_info 
+	</select>
+	
+	<update id="updateUser">
+		update user_info set username=#{username},password=#{password},member=#{member},realname=#{realname},gender=#{gender},idcard=#{idcard},phone_number=#{phone_number},
+		address_original=#{address_original},address_living_1=#{address_living_1},address_living_2=#{address_living_2},photo=#{photo} where user_id=#{user_id}
+	</update>
+	
+	 <!-- 加载UserInfo对象及关联的Airline对象集合 -->
+	<select id="getUserAirline" parameterType="int" resultMap="getUserMap">
+		select f.* from user_info ai
+		left join user_airline p on ai.user_id=p.user_id left join airline_info f on p.airline_id=f.airline_id where ai.user_id=#{user_id}
+	</select>
+	
+	 <!-- 加载UserInfo对象及关联的Workunit对象集合 -->
+	<select id="getUserWorkunit" parameterType="int" resultMap="getUserMap">
+		select f.* from user_info ai
+		left join user_workunit_legal p on ai.user_id=p.user_id left join workunit_info f on p.workunit_id=f.workunit_id where ai.user_id=#{user_id}
+	</select>
+	
+	
+	<resultMap type="User" id="getUserMap">
+		<id property="user_id" column="user_id"/>
+		<result property="username" column="user_name"/>
+		<result property="password" column="password"/>
+		<result property="member" column="member"/>
+		<result property="realname" column="realname"/>
+		<result property="gender" column="gender"/>
+		<result property="idcard" column="idcard"/>
+		<result property="phone_number" column="phone_number"/>
+		<result property="address_original" column="address_original"/>
+		<result property="address_living_1" column="address_living_1"/>
+		<result property="address_living_2" column="address_living_2"/>
+		<collection property="hos" ofType="House">
+			<id property="house_id" column="house_id"/>
+			<result property="house_address" column="house_address"/>
+			<result property="house_value" column="house_value"/>
+			<result property="house_payall_if" column="house_payall_if"/>
+		</collection>
+		<collection property="cars" ofType="Car">
+			<id property="car_id" column="car_id"/>
+			<result property="car_number" column="car_number"/>
+			<result property="car_brand" column="car_brand"/>
+			<result property="car_model" column="car_model"/>
+			<result property="car_buy_date" column="car_buy_date"/>
+			<result property="car_type_year" column="car_type_year"/>
+			<result property="car_hit_market" column="car_hit_market"/>
+			<result property="car_type" column="car_type"/>
+			<result property="car_size" column="car_size"/>
+			<result property="car_pro_country" column="car_pro_country"/>
+			<result property="car_pro_type" column="car_pro_type"/>
+		</collection>
+		<collection property="pas" ofType="Paper">
+			<id property="paper_id" column="paper_id"/>
+			<result property="paper_num" column="paper_num"/>
+			<result property="paper_title" column="paper_title"/>
+			<result property="paper_detail" column="paper_detail"/>
+		</collection> 
+		<collection property="qus" ofType="Quali">
+			<id property="quali_id" column="quali_id"/>
+			<result property="quali_num" column="quali_num"/>
+			<result property="quali_name" column="quali_name"/>
+			<result property="quali_date" column="quali_date"/>
+			<result property="quali_insti" column="quali_insti"/>
+		</collection>
+		<collection property="drs" ofType="Drive">
+			<id property="drive_id" column="drive_id"/>
+			<result property="drive_card" column="drive_card"/>
+			<result property="drive_status" column="drive_status"/>
+			<result property="drive_quasi_type" column="drive_quasi_type"/>
+			<result property="drive_year" column="drive_year"/>
+		</collection>
+		<collection property="cos" ofType="Contact">
+			<id property="contact_id" column="contact_id"/>
+			<result property="contact_number" column="contact_number"/>
+			<result property="contact_status" column="contact_status"/>
+			<result property="contact_time" column="contact_time"/>
+			<result property="contact_name" column="contact_name"/>
+		</collection>
+		<collection property="crs" ofType="Creditcard">
+			<id property="creditcard_id" column="creditcard_id"/>
+			<result property="creditcard_number" column="creditcard_number"/>
+			<result property="creditcard_pro" column="creditcard_pro"/>
+			<result property="creditcard_status" column="creditcard_status"/>
+		</collection>
+		<collection property="eds" ofType="Education">
+			<id property="edu_id" column="edu_id"/>
+			<result property="edu_school" column="edu_school"/>
+			<result property="edu_location" column="edu_location"/>
+			<result property="edu_gra_time" column="edu_gra_time"/>
+			<result property="edu_pro" column="edu_pro"/>
+			<result property="edu_conclusion" column="edu_conclusion"/>
+		</collection>
+		<collection property="ecfs" ofType="EmerContactFM">
+			<id property="emercontact_fm_id" column="emercontact_fm_id"/>
+			<result property="emercontact_fm_name" column="emercontact_fm_name"/>
+			<result property="emercontact_fm_number" column="emercontact_fm_number"/>
+		</collection>
+		<collection property="ecws" ofType="EmerContactWM">
+			<id	property="emercontact_wm_id" column="emercontact_wm_id"/>
+			<result property="emercontact_wm_name" column="emercontact_wm_name"/>
+			<result property="emercontact_wm_number" column="emercontact_wm_number"/>		
+		</collection>
+		<collection property="fus" ofType="Fund">
+			<id property="fund_id" column="fund_id"/>
+			<result property="fund_account" column="fund_account"/>
+			<result property="fund_deposit_base" column="fund_deposit_base"/>
+			<result property="fund_payment_unit_cur" column="fund_payment_unit_cur"/>
+			<result property="fund_payment_month" column="fund_payment_month"/>
+			<result property="fund_city" column="fund_city"/>
+			<result property="fund_balance" column="fund_balance"/>
+			<result property="fund_last_entry_time" column="fund_last_entry_time"/>
+			<result property="fund_idcard" column="fund_idcard"/>
+			<result property="fund_num_cons_month" column="fund_num_cons_month"/>
+		</collection>
+		<collection property="los" ofType="Loan">
+			<id property="loan_id" column="loan_id"/>
+			<result property="loan_type" column="loan_type"/>
+			<result property="loan_instruction" column="loan_instruction"/>
+			<result property="loan_amount" column="loan_amount"/>
+			<result property="loan_type" column="loan_type"/>
+			<result property="loan_result" column="loan_result"/>
+			<result property="loan_pub" column="loan_pub"/>
+			<result property="loan_pub_date" column="loan_pub_date"/>
+			<result property="loan_end_date" column="loan_end_date"/>
+			<result property="loan_balance" column="loan_balance"/>
+			<result property="loan_repay_month" column="loan_repay_month"/>
+			<result property="loan_account_status" column="loan_account_status"/>
+			<result property="loan_guar_method" column="loan_guar_method"/>
+			<result property="loan_cur_overdue_peri" column="loan_cur_overdue_peri"/>
+			<result property="loan_cur_overdue_amo" column="loan_cur_overdue_amo"/>
+			<result property="loan_sum_overdue_amo" column="loan_sum_overdue_amo"/>
+			<result property="loan_repay_status_24" column="loan_repay_status_24"/>
+			<result property="loan_cur_overdue_12_time" column="loan_cur_overdue_12_time"/>
+		</collection>
+		<collection property="rius" ofType="RiskInvestUser">
+			<id property="risk_inv_id" column="risk_inv_id"/>
+			<result property="live_iden_if" column="live_iden_if"/>
+			<result property="cont_loan_match_if" column="cont_loan_match_if"/>
+			<result property="sms_highrisk_if" column="sms_highrisk_if"/>
+			<result property="equ_risk_if" column="equ_risk_if"/>
+			<result property="phone_num_if" column="phone_num_if"/>
+			<result property="many_wifi_if" column="many_wifi_if"/>
+			<result property="many_gps_if" column="many_gps_if"/>
+			<result property="gps_addr_mat_if" column="gps_addr_mat_if"/>
+			<result property="pho_addr_mat_if" column="pho_addr_mat_if"/>
+			<result property="work_addr_mat_if" column="work_addr_mat_if"/>
+			<result property="card_outtime_if" column="card_outtime_if"/>
+		</collection>
+		<collection property="ses" ofType="Security">
+			<id property="secu_id" column="secu_id"/>
+			<result property="secu_if" column="secu_if"/>
+			<result property="secu_name" column="secu_name"/>
+			<result property="secu_pay_base" column="secu_pay_base"/>
+			<result property="secu_pay_unit" column="secu_pay_unit"/>
+			<result property="secu_parti_status" column="secu_parti_status"/>
+			<result property="secu_city" column="secu_city"/>
+			<result property="secu_paid_cons_month" column="secu_paid_cons_month"/>
+			<result property="secu_idcard" column="secu_idcard"/>
+			<result property="secu_pay_recent" column="secu_pay_recent"/>
+		</collection>
+		<collection property="bcus" ofType="BlacklistCreditUser">
+			<id property="blacklist_credit_u_id" column="blacklist_credit_u_id"/>
+			<result property="blacklist_detail" column="blacklist_detail"/>
+		</collection>
+		<collection property="blus" ofType="BlacklistLegalUser">
+			<id property="blacklist_legal_u_id" column="blacklist_legal_u_id"/>
+			<result property="blacklist_detail" column="blacklist_detail"/>
+		</collection>
+		<collection property="bus" ofType="BlacklistUser">
+			<id property="blacklist_user_id" column="blacklist_user_id"/>
+			<result property="blacklist_detail" column="blacklist_detail"/>
+		</collection>
+		<collection property="wos" ofType="Workout">
+			<id property="workout_id" column="workout_id"/>
+			<result property="workout_signin" column="workout_signin"/>
+			<result property="workout_type" column="workout_type"/>
+			<result property="workout_capital" column="workout_capital"/>
+			<result property="workout_job" column="workout_job"/>
+		</collection>
+		<collection property="air" ofType="Airline">
+			<id property="airline_id" column="airline_id"/>
+			<result property="airline_level" column="airline_level"/>
+			<result property="airline_date" column="airline_date"/>
+			<result property="airline_num" column="airline_num"/>
+			<result property="airline_fee" column="airline_fee"/>
+		</collection>
+		<collection property="co12m" ofType="CardOut12M">
+			<id property="out_12m_id" column="out_12m_id"/>
+			<result property="out_12m_time" column="out_12m_time"/>
+			<result property="out_12m_amount" column="out_12m_amount"/>
+		</collection>
+		<collection property="co3m" ofType="CardOut3M">
+			<id property="out_3m_id" column="out_3m_id"/>
+			<result property="out_3m_time" column="out_3m_time"/>
+			<result property="out_3m_amount" column="out_3m_amount"/>
+		</collection>
+		<collection property="co6m" ofType="CardOut6M">
+			<id property="out_6m_id" column="out_6m_id"/>
+			<result property="out_6m_time" column="out_6m_time"/>
+			<result property="out_6m_amount" column="out_6m_amount"/>
+		</collection>
+		<collection property="ins" ofType="Invest">
+			<id property="invest_id" column="invest_id"/>
+			<result property="invest_itemName" column="invest_itemName"/>
+			<result property="invest_amount" column="invest_amount"/>
+		</collection>
+		<collection property="jos" ofType="Job">
+			<id property="job_id" column="job_id"/>
+			<result property="job_title" column="job_title"/>
+			<result property="job_begin" column="job_begin"/>
+			<result property="job_end" column="job_end"/>
+			<result property="job_workunit" column="job_workunit"/>
+		</collection>
+		<collection property="w" ofType="Workunit">
+			<id property="workunit_id" column="workunit_id"/>
+			<result property="workunit_name" column="workunit_name"/>
+			<result property="workunit_type" column="workunit_type"/>
+			<result property="workunit_reg_number" column="workunit_reg_number"/>
+			<result property="workunit_reg_capital" column="workunit_reg_capital"/>
+			<result property="workunit_phone_num1" column="workunit_phone_num1"/>
+			<result property="workunit_phone_num2" column="workunit_phone_num2"/>
+		</collection>
+	</resultMap> 
+</mapper>

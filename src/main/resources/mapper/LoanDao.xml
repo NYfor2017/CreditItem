@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.LoanDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="Loan" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="loan_id" property="loan_id"/>
+        <result column="loaner_type" property="loan_type"/>
+        <result column="loan_instruction" property="loan_instruction"/>
+        <result column="loan_amount" property="loan_amount"/>
+        <result column="loan_type" property="loan_type"/>
+        <result column="loan_result" property="loan_result"/>
+        <result column="loan_pub" property="loan_pub"/>
+        <result column="loan_pub_date" property="loan_pub_date"/>
+        <result column="loan_end_date" property="loan_end_date"/>
+        <result column="loan_balance" property="loan_balance"/>
+        <result column="loan_repay_month" property="loan_repay_month"/>
+        <result column="loan_account_status" property="loan_account_status"/>
+        <result column="loan_guar_method" property="loan_guar_method"/>
+        <result column="loan_cur_overdue_peri" property="loan_cur_overdue_peri"/>
+        <result column="loan_cur_overdue_amo" property="loan_cur_overdue_amo"/>
+        <result column="loan_repay_status_24" property="loan_repay_status_24"/>
+        <result column="loan_cur_overdue_12_time" property="loan_cur_overdue_12_time"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnLoan" parameterType="int" resultMap="BaseResultMap">
+    	select *  from loan_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteLoan" parameterType="int">
+    	delete from loan_info where loan_id=#{loan_id}
+    </delete>
+    
+	<insert id="addLoan">
+		insert into loan_info(loaner_type,loan_instruction,loan_amount,loan_type,loan_result,loan_pub,loan_pub_date,loan_end_date,loan_balance,
+		loan_repay_month,loan_account_status,loan_guar_method,loan_cur_overdue_peri,loan_cur_overdue_amo,loan_sum_overdue_amo,loan_repay_status_24,
+		loan_cur_overdue_12_time,user_id) values(#{loaner_type},#{loan_instruction},#{loan_amount},#{loan_type},#{loan_result},#{loan_pub},#{loan_pub_date},#{loan_end_date},#{loan_balance},
+		#{loan_repay_month},#{loan_account_status},#{loan_guar_method},#{loan_cur_overdue_peri},#{loan_cur_overdue_amo},#{loan_sum_overdue_amo},#{loan_repay_status_24},
+		#{loan_cur_overdue_12_time},user_id#{user_id})
+	</insert>
+	
+	<update id="updateLoan">
+		update loan_info set loaner_type=#{loaner_type},loan_instruction=#{loan_instruction},loan_amount=#{loan_amount},loan_type=#{loan_type},loan_result=#{loan_result},
+		loan_pub=#{loan_pub},loan_pub_date=#{loan_pub_date},loan_end_date=#{oan_end_date},loan_balance=#{loan_balance},
+		loan_repay_month=#{loan_repay_month},loan_account_status=#{loan_account_status},loan_guar_method=#{loan_guar_method},loan_cur_overdue_peri=#{loan_cur_overdue_peri},
+		loan_cur_overdue_amo=#{loan_cur_overdue_amo},loan_sum_overdue_amo=#{loan_sum_overdue_amo},loan_repay_status_24=#{loan_repay_status_24},
+		loan_cur_overdue_12_time=#{loan_cur_overdue_12_time} where loan_id=#{loan_id}
+	</update>
+</mapper>

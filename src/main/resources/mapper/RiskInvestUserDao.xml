@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.RiskInvestUserDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="RiskInvestUser" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result property="risk_inv_id" column="risk_inv_id"/>
+			<result property="live_iden_if" column="live_iden_if"/>
+			<result property="cont_loan_match_if" column="cont_loan_match_if"/>
+			<result property="sms_highrisk_if" column="sms_highrisk_if"/>
+			<result property="equ_risk_if" column="equ_risk_if"/>
+			<result property="phone_num_if" column="phone_num_if"/>
+			<result property="many_wifi_if" column="many_wifi_if"/>
+			<result property="many_gps_if" column="many_gps_if"/>
+			<result property="gps_addr_mat_if" column="gps_addr_mat_if"/>
+			<result property="pho_addr_mat_if" column="pho_addr_mat_if"/>
+			<result property="work_addr_mat_if" column="work_addr_mat_if"/>
+			<result property="card_outtime_if" column="card_outtime_if"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnRiskInvestUser" parameterType="int" resultMap="BaseResultMap">
+    	select *  from risk_invest_user_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteRiskInvestUser" parameterType="int">
+    	delete from risk_invest_user_info where risk_invest_user_id=#{risk_invest_user_id}
+    </delete>
+    
+	<insert id="addRiskInvestUser">
+		insert into risk_invest_user_info(user_id,live_iden_if,cont_loan_match_if, sms_highrisk_if,equ_risk_if,phone_num_if,many_wifi_if,many_gps_if,
+		pho_addr_mat_if,work_addr_mat_if,card_outtime_if) values(#{user_id},#{live_iden_if},#{cont_loan_match_if}, #{sms_highrisk_if},#{equ_risk_if},
+		#{phone_num_if},#{many_wifi_if},#{many_gps_if},#{pho_addr_mat_if},#{work_addr_mat_if},#{card_outtime_if})
+	</insert>
+	
+	<update id="updateRiskInvestUser">
+		update risk_invest_user_info set risk_inv_id=#{risk_inv_id},live_iden_if=#{live_iden_if},cont_loan_match_if=#{cont_loan_match_if}, sms_highrisk_if=#{sms_highrisk_if},
+		equ_risk_if=#{equ_risk_if},phone_num_if=#{phone_num_if},many_wifi_if=#{many_wifi_if},many_gps_if=#{many_gps_if},pho_addr_mat_if=#{pho_addr_mat_if},work_addr_mat_if=#{work_addr_mat_if},card_outtime_if=#{card_outtime_if}
+	</update>
+</mapper>

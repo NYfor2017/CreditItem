@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.EmerContactWMDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="EmerContactWM" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="emercontact_wm_id" property="emercontact_wm_id"/>
+        <result column="emercontact_wm_name" property="emercontact_wm_name"/>
+        <result column="emercontact_wm_number" property="emercontact_wm_number"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnEmerContactWM" parameterType="int" resultMap="BaseResultMap">
+    	select *  from emercontact_wm_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteEmerContactWM" parameterType="int">
+    	delete from emercontact_wm_info where emercontact_wm_id=#{emercontact_wm_id}
+    </delete>
+    
+	<insert id="addEmerContactWM">
+		insert into emercontact_wm_info(emercontact_wm_name,emercontact_wm_number,user_id) values(#{emercontact_wm_name},#{emercontact_wm_number},#{user_id})
+	</insert>
+	
+	<update id="updateEmerContactWM">
+		update emercontact_wm_info set emercontact_wm_name=#{emercontact_wm_name},emercontact_wm_number=#{emercontact_wm_number} where emercontact_wm_id=#{emercontact_wm_id}
+	</update>
+</mapper>

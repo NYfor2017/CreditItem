@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.FundDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="Fund" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="fund_id" property="fund_id"/>
+        <result column="fund_account" property="fund_account"/>
+        <result column="fund_deposit_base" property="fund_deposit_base"/>
+        <result column="fund_payment_unit_cur" property="fund_payment_unit_cur"/>
+        <result column="fund_payment_month" property="fund_payment_month"/>
+        <result column="fund_city" property="fund_city"/>
+        <result column="fund_balance" property="fund_balance"/>
+        <result column="fund_last_entry_time" property="fund_last_entry_time"/>
+        <result column="fund_idcard" property="fund_idcard"/>
+        <result column="fund_num_cons_month" property="fund_num_cons_month"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnFund" parameterType="int" resultMap="BaseResultMap">
+    	select *  from fund_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteFund" parameterType="int">
+    	delete from fund_info where fund_id=#{fund_id}
+    </delete>
+    
+	<insert id="addFund">
+		insert into fund_info(fund_account,fund_deposit_base,fund_payment_unit_cur,fund_payment_month,fund_city,fund_balance,fund_last_entry_time,fund_idcard,fund_num_cons_month,user_id)
+		 values(#{fund_account},#{fund_deposit_base},#{fund_payment_unit_cur},#{fund_payment_month},,#{fund_city},#{fund_balance},#{fund_last_entry_time},#{fund_idcard},#{fund_num_cons_month},#{user_id})
+	</insert>
+	
+	<update id="updateFund">
+		update fund_info set fund_account=#{fund_account},fund_deposit_base=#{fund_deposit_base},fund_payment_unit_cur=#{fund_payment_unit_cur},fund_payment_month=#{fund_payment_month},fund_city=#{fund_city},
+		fund_balance=#{fund_balance},fund_last_entry_time=#{fund_last_entry_time},fund_idcard=#{fund_idcard},fund_num_cons_month=#{fund_num_cons_month} where fund_id=#{fund_id}
+	</update>
+</mapper>

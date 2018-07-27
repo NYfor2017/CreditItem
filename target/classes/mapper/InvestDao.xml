@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ny.dao.InvestDao">
+	<!-- 为dao接口方法提供sql语句配置 -->
+	<resultMap type="Invest" id="BaseResultMap">
+        <!--
+            column:数据库中表的字段
+            property：数据库中表所有映射的实体类javaBean中的属性名
+         -->
+         <result column="invest_id" property="invest_id"/>
+        <result column="invest_itemName" property="invest_itemName"/>
+        <result column="invest_amount" property="invest_amount"/>
+        <result column="user_id" property="u.user_id"/>
+    </resultMap>
+
+    <select id="getOwnInvest" parameterType="int" resultMap="BaseResultMap">
+    	select *  from invest_info where user_id=#{user_id}
+    </select>
+    
+    <delete id="deleteInvest" parameterType="int">
+    	delete from invest_info where invest_id=#{invest_id}
+    </delete>
+    
+	<insert id="addInvest">
+		insert into invest_info(invest_itemName,invest_amount,user_id) values(#{invest_itemName},#{invest_amount},#{user_id})
+	</insert>
+	
+	<update id="updateInvest">
+		update invest_info set invest_itemName=#{invest_itemName},invest_amount=#{invest_amount} where invest_id=#{invest_id}
+	</update>
+</mapper>
